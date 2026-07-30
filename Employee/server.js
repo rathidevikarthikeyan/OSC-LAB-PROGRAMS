@@ -54,7 +54,7 @@ app.get('/view',async(req,res)=>{
             <td>${employee.empid}</td>
             <td>${employee.name}</td>
             <td>${employee.department}</td>
-            <td><a>DELETE</a></td> 
+            <td><a href="/delete/${employee._id}">DELETE</a></td> 
             </tr>
             `;
         
@@ -62,6 +62,17 @@ app.get('/view',async(req,res)=>{
     result += `</table>`;
     res.send(result);
     res.result;
+});
+
+app.get('/delete/:id',async(req,res)=>{
+    try{
+     await Employee.findByIdAndDelete(req.params.id);
+     res.redirect('/view');
+    }
+catch(err){
+    res.send(err);  
+}
+
 });
 app.listen(3000,function(){
     console.log('Server is running on port 3000');  
